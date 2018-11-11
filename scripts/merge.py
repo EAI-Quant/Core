@@ -4,10 +4,11 @@
 # formatted excel spreadsheets
 
 
-import os 
 import pandas as pd
 import csv
 import math
+
+from tools import insert, get_data_files
 
 # script params
 
@@ -24,15 +25,9 @@ frequency = "per=" + frequency
 # function to call
 function = ""
 
-def insert(originalfile,string):
-    with open(originalfile,'r') as f:
-        with open('newfile.csv','w') as f2: 
-            f2.write(string)
-            f2.write(f.read())
-    os.rename('newfile.csv',originalfile)
 
 if __name__ == "__main__":
-    files = [f for f in os.listdir() if "US" in f]
+    files = get_data_files("US")
     print(files)
 
     tickers = set()

@@ -6,7 +6,7 @@ import os
 
 
 # Insert a string into the beginning of originalFile
-def insert(originalfile, string):
+def insert(originalfile,string):
     with open(originalfile,'r') as f:
         with open('newfile.csv','w') as f2: 
             f2.write(string)
@@ -15,6 +15,6 @@ def insert(originalfile, string):
 
 
 # Returns all file names with term in the name in the local directory
-def get_data_files(term):
-    return [f for f in os.listdir() if term in f]
+def get_data_files(term, path = "."):
+    return [f for f in os.listdir(path) if term in f]
 

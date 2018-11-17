@@ -24,9 +24,8 @@ list_path = config.settings["list_import_path"]
 identifiers = []
 
 
-def import_data(list_path, data_files_path, identifiers):
+def import_data(client, list_path, data_files_path, identifiers):
 
-    client = get_client()
     db = client["Stocks"]
 
     names = list_path + "/" + get_data_files(term = "US",\
@@ -81,8 +80,28 @@ def get_client():
 def get_valid_db(client):
     return client.list_database_names()
 
+def delete_same_company(client):
+    db = client["Stocks"]
+    l = db.list_collection_names()
+    i = list(filter(lambda x: x is not -1, map(lambda x: x.find('/'), l)))
+    lm = list(filter(lambda x: '/' in x, l))
+    t = zip(lm, i)
+    results = list(map(lambda x: x[0][:x[1]], t))
+    print(results)
+    cannotremove = list(filter(lambda x: x[0][:x[1]] not in l, t))
+    print(cannotremove)
+
+    print(lm)
+
+    if len(cannotremove) is 0:
+        for name in lm:
+            db[name].drop()
+    return
+
 
 if __name__ == "__main__":
-    import_data(list_path, import_file_path, identifiers)
+    client = get_client()
+    # import_data(client, list_path, import_file_path, identifiers)
+    delete_same_company(client)
 
 
